@@ -1,5 +1,6 @@
 package com.tj.a20191120_02_userlistpractice
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        userListView.setOnItemClickListener { parent, view, position, id ->
+            var userData = userList.get(position)
+            var intent = Intent(mContext, UserDetailActivity::class.java)
+            intent.putExtra("user", userData)
+            startActivity(intent)
+        }
     }
 
     override fun setValues() {

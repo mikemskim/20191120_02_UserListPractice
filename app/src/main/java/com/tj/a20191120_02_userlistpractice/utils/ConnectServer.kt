@@ -49,5 +49,34 @@ class ConnectServer {
 
             })
         }
+
+
+        fun getRequestCategoryList(context: Context, handler: jsonResponseHandler?) {
+            var client = OkHttpClient()
+            var urlBuilder = HttpUrl.parse("${BASE_URL}/system/user_category")!!.newBuilder()
+
+            val requestUrl = urlBuilder.build().toString()
+            Log.d("요청URL", requestUrl)
+
+//            Intent와 비슷한 개념, 어디로 갈지 세팅 완료
+//            실제 출발은 아직 안함
+            val request = Request.Builder().url(requestUrl).build()
+
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.d("서버통신에러", e.localizedMessage)
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    var body = response.body()!!.string()
+                    Log.d("서버", body)
+                    var json = JSONObject(body)
+
+                    handler?.onResponse(json)
+                }
+
+            })
+        }
     }
 }
