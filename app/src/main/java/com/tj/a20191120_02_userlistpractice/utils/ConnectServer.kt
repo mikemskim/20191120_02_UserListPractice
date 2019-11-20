@@ -8,7 +8,7 @@ import java.io.IOException
 
 class ConnectServer {
 
-    interface  jsonResponseHandler {
+    interface jsonResponseHandler {
         fun onResponse(json: JSONObject)
     }
 
@@ -16,10 +16,15 @@ class ConnectServer {
 
         var BASE_URL = "http://192.168.0.26:5000"
 
-        fun getRequestUserList(context: Context, needActive:String, handler: jsonResponseHandler?) {
+        fun getRequestUserList(
+            context: Context,
+            needActive: String,
+            handler: jsonResponseHandler?
+        ) {
             var client = OkHttpClient()
             var urlBuilder = HttpUrl.parse("${BASE_URL}/admin/user")!!.newBuilder()
 //          파라미터 첨부가 필요 없다.
+            urlBuilder.addEncodedQueryParameter("active", needActive)
 
             val requestUrl = urlBuilder.build().toString()
             Log.d("요청URL", requestUrl)
@@ -44,5 +49,5 @@ class ConnectServer {
 
             })
         }
-
+    }
 }
